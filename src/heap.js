@@ -77,6 +77,28 @@ class Heap {
     this.heap.pop();
     this.bubbleDown(0);
     return top;
+   }
+  /* 
+    Time: O(n), Since we are using bubble down
+    We will from backwards because we know most of nodes are there in last level ansd in doing so we will be shifting down less nodes down as most of them are at far end already so bubbledown is prefered over bubbleUp.
+    last -> n / 2 nodes
+    last - 1 => n / 4 nodes
+    ...
+    Ist level => 1 node
+    we have logn levels as 2 ^ h == Total nodes(n) so, taking log will
+    make log2 n == h (height)
+    we start from the last level except the leaf nodes because they won't be bubbling down as they don't have any children.
+    
+  T = 0 * n / 2 + 1 * n / 4 + 2 * n / 8 + ... + log(n - 1) * 1 
+  if we write it up further and we use derivative and taylor series then 
+  final value will come out as n
+  so, T = O(n)
+  */
+  buildHeap = arr => {
+    this.heap = arr;
+    for (let i = Math.floor(this.size / 2) - 1; i >= 0; i--) {
+      this.bubbleDown(i);
+    }
   }
 
 }
