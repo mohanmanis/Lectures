@@ -1,3 +1,10 @@
+
+/* 
+ https://leetcode.com/problems/find-median-from-data-stream/
+https://github.com/mohanmanis/Lectures/blob/main/src/blind75/medianFromDataStream.js
+
+*/
+
 class Heap {
   constructor(compareFn) {
     this.compareFn = compareFn || ((a, b) => a - b);
@@ -96,31 +103,26 @@ var MedianFinder = function () {
   this.left = new Heap((a, b) => b - a); // Max heap
   this.right = new Heap(); // min heap
 };
-// [1, 3, 8], [4]
 /** 
  * @param {number} num
  * @return {void}
  */
 MedianFinder.prototype.addNum = function (num) {
-  if (this.left.size === 0 || num <= this.left.peek) {
-    this.left.enqueue(num);
-  } else {
+  if (this.left.size === this.right.size) {
     this.right.enqueue(num);
+    this.left.enqueue(this.right.dequeue());
+  } else {
+    this.left.enqueue(num);
+    this.right.enqueue(this.left.dequeue());
   }
-  // violation in size
-  if (this.left.size > this.right.size + 1) {
-    this.right.enqueue(this.left.dequeue(num));
-  } else if (this.left.size < this.right.size) {
-    this.left.enqueue(this.right.dequeue(num));
-  }
-  // 3log(n) === logn
 };
 
 /**
  * @return {number}
  */
 MedianFinder.prototype.findMedian = function () {
-  return this.left.size > this.right.size ? this.left.peek : (this.left.peek + this.right.peek) / 2;
+  if (this.left.size > this.right.size) return this.left.peek;
+  return (this.left.peek + this.right.peek) / 2;
 };
 
 /** 
