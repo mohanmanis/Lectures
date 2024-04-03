@@ -1,10 +1,3 @@
-
-/* 
- https://leetcode.com/problems/find-median-from-data-stream/
-https://github.com/mohanmanis/Lectures/blob/main/src/blind75/medianFromDataStream.js
-
-*/
-
 class Heap {
   constructor(compareFn) {
     this.compareFn = compareFn || ((a, b) => a - b);
@@ -96,13 +89,11 @@ class Heap {
   }
 
 }
-
-
-
+// [1, 3, 5] [7, 9]
 var MedianFinder = function () {
-  this.left = new Heap((a, b) => b - a); // Max heap
-  this.right = new Heap(); // min heap
-};
+  this.left = new Heap((a, b) => b - a);
+  this.right = new Heap();
+}
 /** 
  * @param {number} num
  * @return {void}
@@ -115,13 +106,13 @@ MedianFinder.prototype.addNum = function (num) {
     this.left.enqueue(num);
     this.right.enqueue(this.left.dequeue());
   }
-};
+}
 
 /**
  * @return {number}
  */
 MedianFinder.prototype.findMedian = function () {
-  if (this.left.size > this.right.size) return this.left.peek;
+  if (this.left.size !== this.right.size) return this.left.peek;
   return (this.left.peek + this.right.peek) / 2;
 };
 
